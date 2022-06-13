@@ -1,8 +1,6 @@
-from typing import cast
 import numpy as np
 
 class MaxPlus(float):
-
     def __add__(self, y):
         return MaxPlus(max(self, y))
 
@@ -16,6 +14,15 @@ class MinPlus(float):
 
     def __mul__(self, y: float):
         return MinPlus(np.add(self, y))
+
+def dims(arr):
+    L = len(arr.shape)
+    assert L <= 2, 'Array must be one or two dimensional.'
+    if L == 2:
+        dim0 = arr.shape[0]
+    elif L == 1:
+        dim1 = len(arr)
+    return dim0, dim1
 
 class MParray:
     def __init__(self, arr, dtype=None):
@@ -32,13 +39,7 @@ class MParray:
             # else:
             raise TypeError('Cannot determine vector type.')
 
-        if isinstance(arr[0], MParray):
-            arr = [xi.arr for xi in arr]
-
         self.arr = np.asarray(arr)
-        
-        if len(self.arr.shape) == 1:
-            self.arr = self.arr.reshape(-1, 1)
 
     def __iter__(self):
         return iter(self.arr)
@@ -60,6 +61,7 @@ class MParray:
             return MParray(oplus(self.arr,y.arr), dtype=self.dtype)
 
     def __mul__(self, y):
+        # Hadamard product (elementwise multiplication)
         if isinstance(y, float) or isinstance(y, int):
             return y*self.arr
             
@@ -81,7 +83,13 @@ class MParray:
     def dot(self, y):
         assert self.dtype == y.dtype, 'Cannot dot vectors of different types.'
 
+        # if self.arr.shape == 1:
+        #     self.arr = np.array([self.arr])
+        # if y.arr.shape == 1:
+        #     y.arr = np.array([y.arr])
+
         if self.dtype == MaxPlus:
+            print(self.arr+y.arr)
             return max(self.arr + y.arr)
         elif self.dtype == MinPlus:
             return min(self.arr + y.arr)
@@ -94,7 +102,12 @@ class MParray:
         # implements the @ operation, matrix multiplication
         assert self.dtype == y.dtype, 'Cannot multiply matrices of different types.'
 
-        result = np.empty(shape=(self.arr.shape[0], y.arr.shape[1]))
+        dims1 = dims(self.arr)
+        dims2 = dims(y.arr)
+        
+        assert dims1[1] == dims2[0], 'Dimensions do not align.'
+
+        result = np.empty(shape=(dims1[0],dims2[1]))
         yT = y.T.arr
         dt=self.dtype
         for i, row_i in enumerate(self):
@@ -111,6 +124,6 @@ if __name__ == '__main__':
     print( a*b + a*c )
     A = MParray([1,2], dtype=MaxPlus)
     B = MParray([3,4], dtype=MaxPlus)
-    # print((A.dot(B)))
+    print((A.dot(B)))
     C = MParray(np.array([A,B]), dtype=MaxPlus)
-    print((C@C.T).arr)
+    print((A.dot(A)))
