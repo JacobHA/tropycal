@@ -1,4 +1,4 @@
-# tropycal
+# tropycalgebra
 Python implementation of tropical algebra objects.
 
 # About
