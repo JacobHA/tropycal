@@ -116,7 +116,7 @@ class TropicalPolynomial:
         plt.show()
 
 if __name__ == '__main__':
-    l1 = TropicalPolynomial(0, 1., -2, -3, dtype=MaxPlus)
+    l1 = TropicalPolynomial(0, 1., -2, dtype=MaxPlus)
     print(l1.evaluate(3))
     print(l1)
     l1.plot(-10,10)
