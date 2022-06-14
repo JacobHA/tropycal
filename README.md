@@ -27,7 +27,7 @@ B = MParray([3,4], dtype=MaxPlus)
 A.dot(B)
 >>> 6
 # Which is equivalent to: (we just have to call the array)
-(A @ B.T).arr
+(A @ B.T).A
 >>> [[6.]]
 ```
 
@@ -36,7 +36,7 @@ And for matrices:
 C = MParray(np.array([[1,2],\
                       [3,4] ]), dtype=MaxPlus)
     
-(C@A.T).arr
+(C@A.T).A
 >>> [[4.]
      [6.]]
 ```
