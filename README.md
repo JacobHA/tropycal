@@ -47,7 +47,7 @@ l1 = TropicalPolynomial(0, 1., -2, dtype=MaxPlus)
 l1.plot(-10,10)
 ```
 which results in 
-[an image][https://github.com/JacobHA/tropycalgebra/blob/main/lineplot.png]
+[an image](https://github.com/JacobHA/tropycalgebra/blob/main/lineplot.png)
 
 # TODO:
 - [x] Add documentation for the tropical algebra objects
