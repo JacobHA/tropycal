@@ -14,11 +14,12 @@ class MaxPlus(float):
     float: the (real) value of the MaxPlus object
     """
     def __add__(self, y):
+        assert isinstance(y, MaxPlus), f'Cannot add MaxPlus with {type(y)}.'
         return MaxPlus(max(self, y))
 
     def __mul__(self, y):
+        assert isinstance(y, MaxPlus), f'Cannot multiply MaxPlus with {type(y)}.'
         return MaxPlus(float(self) + float(y))
-
 
 class MinPlus(float):
     """
@@ -28,16 +29,24 @@ class MinPlus(float):
     -----------
     float: the (real) value of the MinPlus object
     """
-    def __add__(self, y: float):
+    def __add__(self, y):
+        assert isinstance(y, MinPlus), f'Cannot multiply MinPlus with {type(y)}.'
         return MinPlus(min(self, y))
 
     def __mul__(self, y: float):
+        assert isinstance(y, MinPlus), f'Cannot multiply MinPlus with {type(y)}.'
         return MinPlus(np.add(self, y))
 
 def dims(array):
     """
     Gather the dimensions of an input array. Automatically
     yields a row vector shape when input is one dimensional.
+    Parameters:
+    -----------
+    array: np.ndarray or MParray
+    Returns:
+    --------
+    tuple: the dimensions of the input array
     """
     array_length = len(array.shape)
     assert array_length <= 2, \
@@ -49,19 +58,29 @@ def dims(array):
         dim1 = len(array)
     return dim0, dim1
 
-def dotprod(vector1, vector2, dtype=None):
+def dotprod(vector1, vector2, dtype=None) -> float:
     """
     Calculate the dot product of two vectors,
     in the max-algebra setting (depending on dtype).
+    Parameters:
+    -----------
+    vector1: np.ndarray or MParray
+    vector2: np.ndarray or MParray
+    dtype: MaxPlus or MinPlus
+    Returns:
+    --------
+    float: the dot product of vector1 and vector2
     """
+    result = None
     if dtype == MaxPlus:
-        return (vector1 + vector2).max()
+        result = (vector1 + vector2).max()
     elif dtype == MinPlus:
-        return (vector1 + vector2).min()
+        result = (vector1 + vector2).min()
     elif dtype is None:
-        return vector1.dot(vector2)
+        result = vector1.dot(vector2)
     else:
         raise TypeError(f'Unknown dtype: {dtype}')
+    return result
 
 class MParray:
     """
@@ -113,9 +132,9 @@ class MParray:
             result = MParray([float(xi) + array for xi in self.A], dtype=self.dtype)
         else:
             assert self.dtype == array.dtype, \
-                f'Cannot add vectors of different (semi-field) types.\nTypes: {self.dtype} and {array.dtype}'
+                f'Cannot add vectors of different types: {self.dtype} and {array.dtype}'
             assert len(self.A) == len(array.A), \
-                f'Cannot add vectors of different lengths.\nLengths: {len(self.A)} and {len(array.A)}'
+                f'Cannot add vectors of different lengths: {len(self.A)} and {len(array.A)}'
             if self.dtype == MaxPlus:
                 oplus = np.maximum
             elif self.dtype == MinPlus:
@@ -133,13 +152,11 @@ class MParray:
         array: an MParray of compatible dtype (max/min) and size.
         """
         if isinstance(array, (float, int)):
-            return array * self.A 
+            return array * self.A
         else:
             assert self.dtype == array.dtype, \
-                f'Cannot multiply vectors of different (semi-field) types: {self.dtype} and {array.dtype}.'
-            return MParray([xi + yi for xi, yi in zip(self.A, array.A)], dtype=self.dtype)
-        
-    
+                f'Cannot multiply vectors of different type: {self.dtype} and {array.dtype}.'
+            return MParray([xi + yi for xi, yi in zip(self.A, array.A)], dtype=self.dtype)    
     __rmul__ = __mul__ # (Elementwise) multiplication is commutative
 
     def __sum__(self):
@@ -194,11 +211,7 @@ class MParray:
         return MParray(result, dtype=self.dtype)
 
 if __name__ == '__main__':
-    a = MaxPlus(4)
-    b = MaxPlus(3)
-    c = MaxPlus(7)
-    print( a*(b+c) )
-    print( a*b + a*c )
+
     A = MParray([1,2], dtype=MaxPlus)
     B = MParray([3,4], dtype=MaxPlus)
     print((A.dot(B)))

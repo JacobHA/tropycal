@@ -44,8 +44,9 @@ C = MParray(np.array([[1,2],\
 
 
 # TODO:
-- [ ] Add documentation for the tropical algebra objects
+- [x] Add documentation for the tropical algebra objects
 - [ ] Add identities/units
 - [ ] Add more examples
 - [ ] Eigenvalues/vectors
-- [ ] Change .arr to .A?
+- [x] Change .arr to .A?
+- [ ] Refactor file directory
