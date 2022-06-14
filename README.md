@@ -44,6 +44,7 @@ C = MParray(np.array([[1,2],\
 A simple example for plotting a tropical polynomial (in one variable only!) can be found in the tropical_geometry.py file:
 ```python
 l1 = TropicalPolynomial(0, 1., -2, dtype=MaxPlus)
+# This represents the polynomial "max(0, 1 + x, -2 + 2x)"
 l1.plot(-10,10)
 ```
 which results in 
