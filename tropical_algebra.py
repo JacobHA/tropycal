@@ -209,14 +209,3 @@ class MParray:
                 result[i][j] = dotprod(row_i, col_j, dtype=dt)
 
         return MParray(result, dtype=self.dtype)
-
-if __name__ == '__main__':
-
-    A = MParray([1,2], dtype=MaxPlus)
-    B = MParray([3,4], dtype=MaxPlus)
-    print((A.dot(B)))
-    print((A@B.T).A)
-    C = MParray(np.array([[1,2],\
-                          [3,4] ]), dtype=MaxPlus)
-    print((A.dot(A)))
-    print((C@A.T).A)

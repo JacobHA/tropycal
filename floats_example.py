@@ -1,5 +1,5 @@
 """
-Operations on MaxPlus floats.
+A simple example of using the MaxPlus algebra for floats.
 """
 
 from tropical_algebra import MaxPlus
