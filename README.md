@@ -2,7 +2,8 @@
 Python implementation of tropical algebra objects.
 
 # About
-Tropical algebra is a mathematical theory of algebraic structures which differ from the algebra of real numbers, by changing the binary operators of $\otimes = +$ and $\oplus = \max$ (or $\oplus = \min$). The tropical algebraic structure is not a field (like the reals), it is a semi-ring. [wiki link](https://en.wikipedia.org/wiki/Tropical_semiring)
+Tropical algebra is the study of algebraic structures, whose base field differs from that of the real numbers. By changing the field's binary operators to $\otimes = +$ and $\oplus = \max$ (or $\oplus = \min$), the tropical algebraic structure is no longer a field (like the reals), it is a semi-field. Although this may be seen as a disadvantage, objects in tropical algebra enjoy many interesting properties and are useful in optimization applications. Furthermore, the geometric interpretation arising from such objects (in the sense of algebraic geometry) leads to some interesting results. [You can read a bit more about the field of tropical algebra at this wikipedia link](https://en.wikipedia.org/wiki/Tropical_semiring) or [this one.](https://en.wikipedia.org/wiki/Tropical_geometry)
+
 
 With this library, one can instantiate "tropical numbers" which add and multiply as they should in the tropical ring.
 
