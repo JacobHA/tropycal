@@ -50,3 +50,7 @@ C = MParray(np.array([[1,2],\
 - [ ] Eigenvalues/vectors
 - [x] Change .arr to .A?
 - [ ] Refactor file directory
+- [ ] Make tropical field elements subclass a common objects (a general semiring element)
+- [ ] Add a print method for the tropical algebra objects
+- [ ] Make multivariable polynomials (and plottable too!)
+- [ ] More efficient graphing based on node locations
